@@ -289,15 +289,15 @@ footer {
     <label>Select Events</label>
 
     <label><input type="checkbox" name="event[]" value="Coding Challenge"> Coding Challenge</label>
-    <label><input type="checkbox" name="event[]" value="Hackathon (+50 Rs)"> Hackathon (+50 Rs)</label>
+    <label><input type="checkbox" name="event[]" value="Hackathon"> Hackathon (+50 Rs)</label>
     <label><input type="checkbox" name="event[]" value="Tech Quiz"> Tech Quiz</label>
     <label><input type="checkbox" name="event[]" value="Web Design"> Web Design</label>
-    <label><input type="checkbox" name="event[]" value="Gaming (+50 Rs)"> Gaming (+50 Rs)</label>
+    <label><input type="checkbox" name="event[]" value="Gaming"> Gaming (+50 Rs)</label>
 </div>
 <div class="payment">
     <p class="fee">💸 Registration Fee: <strong>₹<span id="totalFee">100</span></strong></p>
 
-    <img src="NEW FOLDER SRM/PHOTO SHOP/qr.jfif" alt="UPI QR Code" class="qr">
+    <img src="https://web.whatsapp.com/dcf2d375-d162-495d-9973-d793984f76bf" alt="UPI QR Code" class="qr">
 
     <p class="upi-id">UPI ID: <strong>umasreeram333@oksbi</strong></p>
 
@@ -340,7 +340,7 @@ footer {
 </div>
 
 <script>
-    const PARTICIPANT_GROUP_LINK = "https://chat.whatsapp.com/https://chat.whatsapp.com/GbVDdVB3pSFKymxNxYkdv7";
+    const PARTICIPANT_GROUP_LINK = "https://chat.whatsapp.com/GbVDdVB3pSFKymxNxYkdv7";
 
     const ADMIN_NUMBERS = [
     "+91 80756 19012"
@@ -458,8 +458,25 @@ function validatePayment() {
     }
 }
 
+
+function validatePayment() {
+    const expected = calculateFee();
+    const paid = Number(paidInput.value);
+
+    if (paid === expected && expected > 0) {
+        submitBtn.disabled = false;
+        submitBtn.style.opacity = "1";
+        submitBtn.style.cursor = "pointer";
+    } else {
+        submitBtn.disabled = true;
+        submitBtn.style.opacity = "0.5";
+        submitBtn.style.cursor = "not-allowed";
+    }
+}
+
 paidInput.addEventListener("input", validatePayment);
 eventCheckboxes.forEach(cb => cb.addEventListener("change", validatePayment));
+
 
 formData.append("amount", totalAmount);
 
@@ -512,7 +529,8 @@ ${qr}
 
     // Open WhatsApp group
     setTimeout(() => {
-        window.open(PARTICIPANT_GROUP_LINK, "https://chat.whatsapp.com/GbVDdVB3pSFKymxNxYkdv7");
+        window.open(PARTICIPANT_GROUP_LINK, "_blank");
+
     }, 1500);
 });
 
@@ -531,6 +549,7 @@ function openInsta() {
 
 </body>
 </html>
+
 
 startScanner();
 </script>
