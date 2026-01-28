@@ -297,9 +297,9 @@ footer {
 <div class="payment">
     <p class="fee">💸 Registration Fee: <strong>₹<span id="totalFee">100</span></strong></p>
 
-    <img src="https://web.whatsapp.com/dcf2d375-d162-495d-9973-d793984f76bf" alt="UPI QR Code" class="qr">
+    <img src="https://drive.google.com/file/d/1jLyP0aVDb7wNDCHzX421dMr4q9rt9lMk/view?usp=sharing" alt="UPI QR Code" class="qr">
 
-    <p class="upi-id">UPI ID: <strong>umasreeram333@oksbi</strong></p>
+    <p class="upi-id">UPI ID: <strong>kripa1242006@0kasis</strong></p>
 
     <input type="text" name="txn" placeholder="UPI Transaction ID" required>
     <input type="number" name="paidAmount" placeholder="Amount Paid (₹)" required>
@@ -340,220 +340,173 @@ footer {
 </div>
 
 <script>
+    /* ================= CONFIG ================= */
     const PARTICIPANT_GROUP_LINK = "https://chat.whatsapp.com/GbVDdVB3pSFKymxNxYkdv7";
-
-    const ADMIN_NUMBERS = [
-    "+91 80756 19012"
-];
-function notifyAdmins(data) {
-    const msg =
-`🟢 NEW TECLADO REGISTRATION
-
-👤 Name: ${data.name}
-🏫 College: ${data.college}
-📞 Phone: ${data.phone}
-📧 Email: ${data.email}
-
-🎯 Events: ${data.events}
-💰 Amount: ₹${data.amount}
-🧾 TXN ID: ${data.txn}
-
-⏰ ${new Date().toLocaleString()}`;
-
-    ADMIN_NUMBERS.forEach(num => {
-        const url = `https://wa.me/${num}?text=${encodeURIComponent(msg)}`;
-        window.open(url, "_blank");
+    const ADMIN_NUMBERS = ["+91 80756 19012"];
+    const baseFee = 100;
+    const extraEvents = { Hackathon: 50, Gaming: 50 };
+    
+    /* ================= PARTICLES ================= */
+    particlesJS("particles-js", {
+      particles: {
+        number: { value: 80 },
+        color: { value: "#00f5ff" },
+        size: { value: 3 },
+        move: { speed: 1 },
+        line_linked: { enable: true, color: "#00f5ff" }
+      }
     });
-}
-
-// PARTICLES CONFIG
-particlesJS("particles-js", {
-  particles: {
-    number: { value: 80 },
-    color: { value: "#00f5ff" },
-    size: { value: 3 },
-    move: { speed: 1 },
-    line_linked: { enable: true, color: "#00f5ff" }
-  }
-});
-
-// GOOGLE SHEET + WHATSAPP
-const screenshotInput = document.querySelector('input[name="screenshot"]');
-const preview = document.getElementById("preview");
-
-screenshotInput.addEventListener("change", () => {
-    const file = screenshotInput.files[0];
-    if (file) {
+    
+    /* ================= ELEMENTS ================= */
+    const form = document.getElementById("registrationForm");
+    const submitBtn = document.getElementById("submitBtn");
+    const paidInput = document.querySelector('input[name="paidAmount"]');
+    const eventCheckboxes = document.querySelectorAll('input[name="event[]"]');
+    const feeDisplay = document.getElementById("totalFee");
+    const screenshotInput = document.querySelector('input[name="screenshot"]');
+    const preview = document.getElementById("preview");
+    
+    /* ================= PREVIEW ================= */
+    screenshotInput.addEventListener("change", () => {
+        const file = screenshotInput.files[0];
+        if (!file) return;
         const reader = new FileReader();
         reader.onload = e => {
             preview.src = e.target.result;
             preview.style.display = "block";
         };
         reader.readAsDataURL(file);
+    });
+    
+    /* ================= FEE ================= */
+    function calculateFee() {
+        let total = baseFee;
+        eventCheckboxes.forEach(cb => {
+            if (cb.checked && extraEvents[cb.value]) {
+                total += extraEvents[cb.value];
+            }
+        });
+        feeDisplay.textContent = total;
+        return total;
     }
-});
-const baseFee = 100;
-const extraEvents = {
-    "Hackathon": 50,
-    "Gaming": 50
-};
-
-const feeDisplay = document.getElementById("totalFee");
-const eventCheckboxes = document.querySelectorAll('input[name="event[]"]');
-
-function calculateFee() {
-    let total = baseFee;
-
-    eventCheckboxes.forEach(cb => {
-        if (cb.checked && extraEvents[cb.value]) {
-            total += extraEvents[cb.value];
+    
+    eventCheckboxes.forEach(cb => cb.addEventListener("change", () => {
+        calculateFee();
+        validatePayment();
+    }));
+    
+    /* ================= PAYMENT VALIDATION ================= */
+    function validatePayment() {
+        const expected = calculateFee();
+        const paid = Number(paidInput.value);
+    
+        if (paid === expected && expected > 0) {
+            submitBtn.disabled = false;
+            submitBtn.style.opacity = "1";
+            submitBtn.style.cursor = "pointer";
+        } else {
+            submitBtn.disabled = true;
+            submitBtn.style.opacity = "0.5";
+            submitBtn.style.cursor = "not-allowed";
         }
-    });
-
-    feeDisplay.textContent = total;
-    return total;
-}
-
-eventCheckboxes.forEach(cb => {
-    cb.addEventListener("change", calculateFee);
-});
-
-document.getElementById("registrationForm").addEventListener("submit", function(e){
-    e.preventDefault();
-
-    const form = e.target;
-    const formData = new FormData(form);
-
-    const events = [...document.querySelectorAll('input[name="event[]"]:checked')]
-                   .map(e => e.value)
-                   .join(", ");
-
-    if (!events) {
-        alert("Please select at least one event.");
-        return;
     }
-
-    formData.append("name", form.name.value);
-    formData.append("college", form.college.value);
-    formData.append("email", form.email.value);
-    formData.append("phone", form.phone.value);
-    formData.append("event", events);
-    formData.append("txn", form.txn.value);
-    const totalAmount = calculateFee();
-    const paidInput = document.querySelector('input[name="paidAmount"]');
-const submitBtn = document.getElementById("submitBtn");
-
-function validatePayment() {
-    const expected = calculateFee();
-    const paid = Number(paidInput.value);
-
-    if (paid === expected && expected > 0) {
-        submitBtn.disabled = false;
-        submitBtn.style.opacity = "1";
-        submitBtn.style.cursor = "pointer";
-    } else {
+    
+    paidInput.addEventListener("input", validatePayment);
+    
+    /* ================= ADMIN NOTIFY ================= */
+    function notifyAdmins(data) {
+        const msg =
+    `🟢 NEW TECLADO REGISTRATION
+    
+    👤 Name: ${data.name}
+    🏫 College: ${data.college}
+    📞 Phone: ${data.phone}
+    📧 Email: ${data.email}
+    🎯 Events: ${data.events}
+    💰 Amount: ₹${data.amount}
+    🧾 TXN ID: ${data.txn}
+    ⏰ ${new Date().toLocaleString()}`;
+    
+        ADMIN_NUMBERS.forEach(num => {
+            window.open(`https://wa.me/${num}?text=${encodeURIComponent(msg)}`, "_blank");
+        });
+    }
+    
+    /* ================= SUBMIT ================= */
+    form.addEventListener("submit", function (e) {
+        e.preventDefault();
+    
+        const events = [...document.querySelectorAll('input[name="event[]"]:checked')]
+            .map(e => e.value)
+            .join(", ");
+    
+        if (!events) {
+            alert("Please select at least one event.");
+            return;
+        }
+    
+        const totalAmount = calculateFee();
+        const paid = Number(form.paidAmount.value);
+    
+        if (paid !== totalAmount) {
+            alert(`❌ Payment mismatch!\nExpected ₹${totalAmount}\nPaid ₹${paid}`);
+            return;
+        }
+    
         submitBtn.disabled = true;
-        submitBtn.style.opacity = "0.5";
-        submitBtn.style.cursor = "not-allowed";
-    }
-}
-
-
-function validatePayment() {
-    const expected = calculateFee();
-    const paid = Number(paidInput.value);
-
-    if (paid === expected && expected > 0) {
-        submitBtn.disabled = false;
-        submitBtn.style.opacity = "1";
-        submitBtn.style.cursor = "pointer";
-    } else {
-        submitBtn.disabled = true;
-        submitBtn.style.opacity = "0.5";
-        submitBtn.style.cursor = "not-allowed";
-    }
-}
-
-paidInput.addEventListener("input", validatePayment);
-eventCheckboxes.forEach(cb => cb.addEventListener("change", validatePayment));
-
-
-formData.append("amount", totalAmount);
-
-const paid = Number(form.paidAmount.value);
-
-if (paid !== totalAmount) {
-    alert(`❌ Payment mismatch!\nExpected: ₹${totalAmount}\nPaid: ₹${paid}`);
-    return;
-}
-
-fetch("https://script.google.com/macros/s/AKfycbyXaDmOdRSdIbTueS6XZeZmYvaq2lTSA-GrSoCAHHzDTUprodwhjGS-YqwIu1YW05hxWQ/exec", {
-    method: "POST",
-    body: formData
-})
-.then(res => res.json())
-.then(data => {
-
-    const pid = data.participantId;
-    const qr = data.qrUrl;
-
-    // Admin alert
-    notifyAdmins({
-        name: form.name.value,
-        college: form.college.value,
-        phone: form.phone.value,
-        email: form.email.value,
-        events: events,
-        amount: totalAmount,
-        txn: form.txn.value
+        submitBtn.textContent = "Submitting...";
+    
+        const formData = new FormData(form);
+        formData.append("event", events);
+        formData.append("amount", totalAmount);
+    
+        fetch("https://script.google.com/macros/s/AKfycbyXaDmOdRSdIbTueS6XZeZmYvaq2lTSA-GrSoCAHHzDTUprodwhjGS-YqwIu1YW05hxWQ/exec", {
+            method: "POST",
+            body: formData
+        })
+        .then(res => res.json())
+        .then(data => {
+            notifyAdmins({
+                name: form.name.value,
+                college: form.college.value,
+                phone: form.phone.value,
+                email: form.email.value,
+                events,
+                amount: totalAmount,
+                txn: form.txn.value
+            });
+    
+            const userMsg =
+    `🎉 TECLADO Registration Successful!
+    🆔 ID: ${data.participantId}
+    🎯 Events: ${events}
+    💰 Amount: ₹${totalAmount}
+    🎫 QR: ${data.qrUrl}`;
+    
+            window.open(`https://wa.me/91${form.phone.value}?text=${encodeURIComponent(userMsg)}`, "_blank");
+            setTimeout(() => window.open(PARTICIPANT_GROUP_LINK, "_blank"), 1500);
+        })
+        .catch(err => {
+            alert("❌ Registration failed. Please contact help desk.");
+            console.error(err);
+            submitBtn.disabled = false;
+            submitBtn.textContent = "Register Now";
+        });
     });
-
-    // WhatsApp message to participant
-    const userMsg =
-`🎉 TECLADO Registration Successful!
-
-🆔 Participant ID: ${pid}
-🎯 Events: ${events}
-💰 Amount: ₹${totalAmount}
-
-🎫 ENTRY QR:
-${qr}
-
-⚠️ Show this QR at the entry gate.
-📢 Join participant group for updates 👇`;
-
-    window.open(
-        `https://wa.me/91${form.phone.value}?text=${encodeURIComponent(userMsg)}`,
-        "_blank"
-    );
-
-    // Open WhatsApp group
-    setTimeout(() => {
-        window.open(PARTICIPANT_GROUP_LINK, "_blank");
-
-    }, 1500);
-});
-
-});
-
-function toggleCallPopup() {
-    const popup = document.getElementById("callPopup");
-    popup.style.display = popup.style.display === "flex" ? "none" : "flex";
-}
-
-function openInsta() {
-    window.open("https://www.instagram.com/ccsit.palakkad_official", "_blank");
-}
-
-</script>
+    
+    /* ================= UI ================= */
+    function toggleCallPopup() {
+        const popup = document.getElementById("callPopup");
+        popup.style.display = popup.style.display === "flex" ? "none" : "flex";
+    }
+    
+    function openInsta() {
+        window.open("https://www.instagram.com/ccsit.palakkad_official", "_blank");
+    }
+    </script>
+    
 
 </body>
 </html>
 
-
-startScanner();
-</script>
-
-</body>
-</html>
 
