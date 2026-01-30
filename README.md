@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -321,90 +320,93 @@ button::after {
 
 <script>
   const WHATSAPP_GROUP = "https://chat.whatsapp.com/GbVDdVB3pSFKymxNxYkdv7";
-
-const paidBtn = document.getElementById("paidBtn");
-const entryPass = document.getElementById("entryPass");
-const entryQR = document.getElementById("entryQR");
-const name = document.querySelector('input[type="text"]').value.trim();
-const email = document.querySelector('input[type="email"]').value.trim();
-const phone = document.querySelector('input[type="tel"]').value.trim();
-const selectedEvents = document.querySelectorAll('input[name="events"]:checked');
-
-if (!name || !email || !phone) {
-  alert("Please fill all personal details");
-  return;
-}
-
-if (selectedEvents.length === 0) {
-  alert("Please select at least one event");
-  return;
-}
-
-paidBtn.addEventListener("click", async () => {
-  const paymentMode = document.getElementById("paymentMode").value;
-  const file = document.getElementById("paymentProof").files[0];
-
-  if (!paymentMode) {
-    alert("Select payment method");
-    return;
-  }
-
-
-  /* 🔐 UPI QR FLOW */
-  if (paymentMode === "UPI QR" && !file) {
-    alert("Upload payment screenshot");
-    return;
-  }
-
-  const reader = new FileReader();
-  reader.onload = async () => {
-    const payload = {
-      name: document.querySelector('input[type="text"]').value,
-      email: document.querySelector('input[type="email"]').value,
-      phone: document.querySelector('input[type="tel"]').value,
-      college: document.querySelectorAll('input[type="text"]')[1].value,
-      events: [...document.querySelectorAll('input[name="events"]:checked')].map(e => e.value),
-      amount: calculateFee(),
-      paymentMode: paymentMode,
-      screenshot: reader.result.split(",")[1],
-      mimeType: file.type
+  
+  const paidBtn = document.getElementById("paidBtn");
+  const entryPass = document.getElementById("entryPass");
+  const entryQR = document.getElementById("entryQR");
+  
+  paidBtn.addEventListener("click", async () => {
+  
+    const name = document.querySelector('input[type="text"]').value.trim();
+    const email = document.querySelector('input[type="email"]').value.trim();
+    const phone = document.querySelector('input[type="tel"]').value.trim();
+    const college = document.querySelectorAll('input[type="text"]')[1].value.trim();
+    const events = [...document.querySelectorAll('input[name="events"]:checked')].map(e => e.value);
+    const paymentMode = document.getElementById("paymentMode").value;
+    const file = document.getElementById("paymentProof").files[0];
+  
+    if (!name || !email || !phone || !college) {
+      alert("Please fill all personal details");
+      return;
+    }
+  
+    if (events.length === 0) {
+      alert("Please select at least one event");
+      return;
+    }
+  
+    if (paymentMode === "UPI QR" && !file) {
+      alert("Upload payment screenshot");
+      return;
+    }
+  
+    paidBtn.disabled = true;
+    paidBtn.innerText = "⏳ Processing...";
+  
+    const reader = new FileReader();
+  
+    reader.onload = async () => {
+      const payload = {
+        name,
+        email,
+        phone,
+        college,
+        events,
+        amount: calculateFee(),
+        paymentMode,
+        screenshot: reader.result.split(",")[1],
+        mimeType: file.type
+      };
+  
+      try {
+        const res = await fetch(
+          "https://script.google.com/macros/s/AKfycbyWwudRFi2222c-jj8nxfG3rPGCyFtePQvcSPQPh1IpEAckILWmvv35RPfq16CMqQFgwg/exec",
+          {
+            method: "POST",
+            body: JSON.stringify(payload)
+          }
+        );
+  
+        const result = await res.json();
+  
+        entryQR.src =
+          "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=" +
+          encodeURIComponent(result.qrData);
+  
+        form.style.display = "none";
+        entryPass.style.display = "block";
+        success.style.display = "block";
+  
+        const message =
+          `Hi, I have successfully registered for TECLADO ✅%0A%0A` +
+          `Name: ${name}%0A` +
+          `Events: ${events.join(", ")}`;
+  
+        setTimeout(() => {
+          window.open(`https://wa.me/?text=${message}`, "_blank");
+        }, 1200);
+  
+      } catch (err) {
+        alert("Registration failed. Try again.");
+        paidBtn.disabled = false;
+        paidBtn.innerText = "✅ Confirm Payment & Register";
+      }
     };
-
-    const res = await fetch("https://script.google.com/macros/s/AKfycbyWwudRFi2222c-jj8nxfG3rPGCyFtePQvcSPQPh1IpEAckILWmvv35RPfq16CMqQFgwg/exec", {
-      method: "POST",
-      body: JSON.stringify(payload)
-    });
-
-    const result = await res.json();
-
-    entryQR.src =
-      "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=" +
-      encodeURIComponent(result.qrData);
-
-      form.style.display = "none";
-entryPass.style.display = "block";
-success.style.display = "block";
-
-/* 🚀 Auto-open WhatsApp Group */
-const message =
-  `Hi, I have successfully registered for TECLADO ✅%0A%0A` +
-  `Name: ${payload.name}%0A` +
-  `Events: ${payload.events.join(", ")}%0A%0A` +
-  `Here is my Entry Pass QR:%0A${result.qrImage}`;
-
-setTimeout(() => {
-  window.open(
-    `https://wa.me/?text=${message}`,
-    "_blank"
-  );
-}, 1500);
-
-  };
-
-  reader.readAsDataURL(file);
-});
-
-</script>
+  
+    reader.readAsDataURL(file);
+  });
+  </script>
+  
 
 <!-- 📸 INSTAGRAM BUTTON (BOTTOM RIGHT) -->
 <div class="fab insta-fab">
@@ -414,5 +416,4 @@ setTimeout(() => {
 </div>
 </body>
 </html> 
-
 
