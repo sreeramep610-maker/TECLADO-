@@ -1,512 +1,418 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>TECLADO | Tech Fest Registration</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <title>Tech Fest Registration</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<!-- Google Font -->
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&display=swap" rel="stylesheet">
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&display=swap" rel="stylesheet">
 
-<!-- Particles JS -->
-<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+  <style>
+    * { box-sizing: border-box; }
 
-<style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-
-body {
-    font-family: 'Orbitron', sans-serif;
-    background: #0f0c29;
-    color: #fff;
-    min-height: 100vh;
-    overflow-x: hidden;
-}
-
-/* PARTICLES */
-#particles-js {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-}
-
-/* INTRO */
-.intro {
-    position: fixed;
-    inset: 0;
-    background: #000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    animation: fadeOut 3s forwards;
-    z-index: 10;
-}
-
-.intro h1 {
-    font-size: 3rem;
-    color: #00f5ff;
-    animation: glow 1.5s infinite alternate;
-}
-
-@keyframes glow {
-    from { text-shadow: 0 0 10px #00f5ff; }
-    to { text-shadow: 0 0 30px #6a00ff; }
-}
-
-@keyframes fadeOut {
-    0% { opacity: 1; }
-    80% { opacity: 1; }
-    100% { opacity: 0; visibility: hidden; }
-}
-/* UNIVERSITY HEADER */
-.uni-header {
-    text-align: center;
-    padding: 20px 10px 0;
-}
-
-.uni-logo {
-    width: 260px;
-    max-width: 85vw;
-    margin-bottom: 6px;
-    filter: drop-shadow(0 0 10px rgba(255,255,255,0.25));
-}
-
-.uni-text {
-    font-size: 0.9rem;
-    letter-spacing: 1px;
-    color: #ddd;
-    margin-bottom: 25px;
-}
-
-/* HEADER */
-header {
-    text-align: center;
-    padding: 60px 20px;
-}
-.logo {
-    width: 140px;
-    max-width: 45vw;
-    margin-bottom: 15px;
-    filter: drop-shadow(0 0 15px rgba(255,120,0,0.6));
-    animation: logoGlow 2s infinite alternate;
-}
-
-@keyframes logoGlow {
-    from {
-        filter: drop-shadow(0 0 10px rgba(255,120,0,0.4));
-        transform: scale(1);
+    body {
+      margin: 0;
+      font-family: 'Orbitron', sans-serif;
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
-    to {
-        filter: drop-shadow(0 0 25px rgba(255,180,80,0.9));
-        transform: scale(1.05);
+
+    .container {
+  background: linear-gradient(180deg, rgba(10,10,20,0.85), rgba(0,0,0,0.95));
+  border-radius: 14px;
+  padding: 30px;
+  width: 100%;
+  max-width: 420px;
+  border: 1px solid rgba(255,0,0,0.4);
+  box-shadow:
+    0 0 20px rgba(255,0,0,0.4),
+    inset 0 0 25px rgba(255,0,0,0.15);
+  position: relative;
+  overflow: hidden;
+}
+
+.container::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255,255,255,0.03),
+    rgba(255,255,255,0.03) 1px,
+    transparent 1px,
+    transparent 4px
+  );
+  pointer-events: none;
+  animation: scan 6s linear infinite;
+}
+
+@keyframes scan {
+  from { background-position: 0 0; }
+  to { background-position: 0 100%; }
+}
+
+
+h1 {
+  text-align: center;
+  font-size: 26px;
+  letter-spacing: 3px;
+  color: #ff2e2e;
+  text-shadow: 0 0 10px rgba(255,46,46,0.8);
+}
+
+
+    p {
+      text-align: center;
+      font-size: 14px;
+      opacity: 0.8;
+      margin-bottom: 25px;
     }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 13px;
+      opacity: 0.9;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 18px;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+      font-family: inherit;
+    }
+
+    input:focus, select:focus {
+      box-shadow: 0 0 8px #ff2e2e;
+    }
+
+    button {
+  background: linear-gradient(90deg, #ff0000, #ff8800);
+  letter-spacing: 2px;
+  font-weight: bold;
+  position: relative;
 }
 
-header h1 {
-    font-size: 3rem;
-    letter-spacing: 4px;
-    color: #00f5ff;
+button::after {
+  position: absolute;
+  right: 20px;
+  opacity: 0.6;
 }
 
-header p {
-    color: #ccc;
+    button:hover {
+      transform: scale(1.03);
+      box-shadow: 0 0 15px rgba(255,75,43,0.7);
+    }
+
+    .success {
+      display: none;
+      text-align: center;
+      margin-top: 20px;
+      color: #00ff99;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 15px;
+      font-size: 12px;
+      opacity: 0.6;
+    }
+    .checkbox-group {
+  margin-bottom: 20px;
 }
 
-/* FORM CONTAINER */
-.container {
-    max-width: 700px;
-    margin: auto;
-    background: rgba(0,0,0,0.6);
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 0 25px rgba(0,245,255,0.3);
+.checkbox {
+  padding: 10px 14px;
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 8px;
+  transition: all 0.25s ease;
+  background: rgba(0,0,0,0.4);
 }
 
-/* FORM */
-form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-.events {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+.checkbox:hover {
+  border-color: #ff2e2e;
+  box-shadow: 0 0 10px rgba(255,46,46,0.6);
+  transform: translateX(4px);
 }
 
-.events label {
-    font-size: 0.9rem;
-    color: #ccc;
-    cursor: pointer;
-}
-
-.events input {
-    margin-right: 8px;
-    accent-color: #00f5ff;
+.checkbox input:checked + span {
+  color: #00ffcc;
 }
 
 
-input:focus, select:focus {
-    outline: none;
-    box-shadow: 0 0 10px #00f5ff;
+.checkbox input {
+  accent-color: #ff2e2e;
+  width: 16px;
+  height: 16px;
+}
+/* 🔘 Floating Action Buttons */
+.fab {
+  position: fixed;
+  bottom: 20px;
+  z-index: 999;
 }
 
-button {
-    margin-top: 20px;
-    padding: 15px;
-    background: linear-gradient(90deg,#00f5ff,#6a00ff);
-    border: none;
-    border-radius: 30px;
-    color: #fff;
-    font-size: 1.1rem;
-    cursor: pointer;
-}
-.payment {
-    margin-top: 15px;
-    padding: 15px;
-    border: 1px dashed #00f5ff;
-    border-radius: 12px;
-    text-align: center;
+.call-fab {
+  left: 20px;
 }
 
-.fee {
-    margin-bottom: 10px;
-    color: #00f5ff;
+.insta-fab {
+  right: 20px;
 }
 
-.qr {
-    width: 180px;
-    margin: 10px auto;
-    display: block;
-    border-radius: 10px;
-    box-shadow: 0 0 15px rgba(0,245,255,0.5);
+.fab a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border-radius: 50px;
+  background: linear-gradient(90deg, #ff0000, #ff4b2b);
+  color: #fff;
+  text-decoration: none;
+  font-size: 13px;
+  box-shadow: 0 0 15px rgba(255,0,0,0.6);
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.upi-id {
-    font-size: 0.9rem;
-    margin-bottom: 10px;
-    color: #ccc;
+.fab a:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 25px rgba(255,75,43,0.9);
+}
+.score-box {
+  font-family: monospace;
+  background: rgba(0,0,0,0.6);
+  border-left: 4px solid #ffd700;
+  padding: 10px;
+  margin-bottom: 15px;
+  text-shadow: 0 0 5px rgba(255,215,0,0.6);
+}
+#entryPass img {
+  box-shadow: 0 0 25px rgba(0,255,200,0.8);
 }
 
-.payment input {
-    width: 100%;
-    padding: 12px;
-    border-radius: 8px;
-    border: none;
-    font-size: 1rem;
-}
-
-button:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 20px #00f5ff;
-}
-
-footer {
-    text-align: center;
-    padding: 20px;
-    color: #aaa;
-    font-size: 0.8rem;
-}
-/* FLOATING BUTTONS */
-.floating-btn {
-    position: fixed;
-    bottom: 20px;
-    width: 55px;
-    height: 55px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 26px;
-    color: #fff;
-    cursor: pointer;
-    z-index: 20;
-    box-shadow: 0 0 20px rgba(0,245,255,0.7);
-}
-
-.call-btn {
-    left: 20px;
-    background: linear-gradient(135deg, #00f5ff, #0066ff);
-}
-
-.insta-btn {
-    right: 20px;
-    background: linear-gradient(135deg, #ff00cc, #ff6600);
-}
-
-/* CALL POPUP */
-.call-popup {
-    position: fixed;
-    bottom: 90px;
-    left: 20px;
-    background: rgba(0,0,0,0.9);
-    border-radius: 12px;
-    padding: 15px;
-    display: none;
-    flex-direction: column;
-    gap: 10px;
-    z-index: 25;
-    box-shadow: 0 0 25px rgba(0,245,255,0.4);
-}
-
-.call-popup a {
-    color: #00f5ff;
-    text-decoration: none;
-    font-size: 0.9rem;
-}
-
-.call-popup a:hover {
-    text-shadow: 0 0 10px #00f5ff;
-}
-
-</style>
+  </style>
 </head>
-
 <body>
 
-<div id="particles-js"></div>
-
-<!-- INTRO -->
-<div class="intro">
-    <h1>TECLADO</h1>
-</div>
-
-<header>
-    <img src="https://ccsit.uoc.ac.in/images/ccsit_pkd/TECLADO.png" alt="TECLADO Logo" class="logo">
+  <div class="container">
     <h1>TECLADO</h1>
     <p>CCSIT PALAKKAD</p>
-</header>
 
-<div class="container">
-<form id="registrationForm">
+    <form id="regForm">
+      <label>Full Name</label>
+      <input type="text" required />
 
-<input type="text" name="name" placeholder="Full Name" required>
-<input type="text" name="college" placeholder="College Name" required>
-<input type="email" name="email" placeholder="Email" required>
-<input type="tel" name="phone" placeholder="Phone Number" required>
+      <label>Email Address</label>
+      <input type="email" required />
 
-<div class="events">
-    <label>Select Events</label>
+      <label>Phone Number</label>
+      <input type="tel" required />
 
-    <label><input type="checkbox" name="event[]" value="Coding Challenge"> Coding Challenge</label>
-    <label><input type="checkbox" name="event[]" value="Hackathon"> Hackathon (+50 Rs)</label>
-    <label><input type="checkbox" name="event[]" value="Tech Quiz"> Tech Quiz</label>
-    <label><input type="checkbox" name="event[]" value="Web Design"> Web Design</label>
-    <label><input type="checkbox" name="event[]" value="Gaming"> Gaming (+50 Rs)</label>
+      <label>College Name</label>
+      <input type="text" required />
+<label>Select Events</label>
+
+<div class="checkbox-group">
+  <label class="checkbox">
+    <input type="checkbox" name="events" value="Hackathon">
+    <span>Hackathon</span>
+    
+  </label>
+
+  <label class="checkbox">
+    <input type="checkbox" name="events" value="Code Debugging">
+    <span>Debugging</span> 
+  </label>
+
+  <label class="checkbox">
+    <input type="checkbox" name="events" value="Tech Quiz">
+    <span>Tech Quiz</span>
+  </label>
+
+  <label class="checkbox">
+    <input type="checkbox" name="events" value="Gaming">
+    <span>Gaming</span>
+  </label>
 </div>
-<div class="payment">
-    <p class="fee">💸 Registration Fee: <strong>₹<span id="totalFee">100</span></strong></p>
-
-    <img src="https://drive.google.com/file/d/1jLyP0aVDb7wNDCHzX421dMr4q9rt9lMk/view?usp=sharing" alt="UPI QR Code" class="qr">
-
-    <p class="upi-id">UPI ID: <strong>kripa1242006@0kasis</strong></p>
-
-    <input type="text" name="txn" placeholder="UPI Transaction ID" required>
-    <input type="number" name="paidAmount" placeholder="Amount Paid (₹)" required>
-
-    <input type="file" name="screenshot" accept="image/*" required>
-
-<img id="preview" style="display:none; width:100%; margin-top:10px; border-radius:10px;">
+<div id="feeBox">
+  💰 TOTAL FEES: ₹100
 </div>
 
-<button type="submit" id="submitBtn" disabled style="opacity:0.5; cursor:not-allowed;">
-    Register Now
+<div id="qrBox" style="display:none; text-align:center; margin-bottom:15px;">
+  <p style="font-size:13px; opacity:0.8;">Scan to Pay</p>
+  <img id="qrImg" style="width:200px; border-radius:10px;" />
+</div>
+<label>Payment Method</label>
+<select id="paymentMode" required>
+  <option value="UPI QR">UPI QR</option>
+</select>
+
+<label>Upload Payment Screenshot</label>
+<input type="file" id="paymentProof" accept="image/*" />
+
+
+<button type="button" id="paidBtn" style="margin-bottom:15px;">
+  ✅ Confirm Payment & Register
 </button>
 
-
-</form>
-</div>
-
-<footer>
-© 2026 TECLADO | CCSIT PALAKKAD
-</footer>
-<!-- CALL BUTTON -->
-<div class="floating-btn call-btn" onclick="toggleCallPopup()">📞</div>
-
-<!-- CALL POPUP -->
-<div class="call-popup" id="callPopup">
-    <a href="tel:+918089483773">+91 80894 83773</a>
-    <a href="tel:+918089859411">+91 80898 59411</a>
-    <a href="tel:+918714923412">+91 87149 23412</a>
-    <a href="tel:+918075619012">+91 80756 19012</a>
-</div>
-
-<!-- INSTAGRAM BUTTON -->
-<div class="floating-btn insta-btn" onclick="openInsta()">📸</div>
-<!-- UNIVERSITY LOGO -->
-<div class="uni-header">
-    <img src="https://ccsit.uoc.ac.in/images/logouc.png" alt="University of Calicut" class="uni-logo">
-    <div class="uni-text">University of Calicut</div>
-</div>
-
-<script>
-    /* ================= CONFIG ================= */
-    const PARTICIPANT_GROUP_LINK = "https://chat.whatsapp.com/GbVDdVB3pSFKymxNxYkdv7";
-    const ADMIN_NUMBERS = ["+91 80756 19012"];
-    const baseFee = 100;
-    const extraEvents = { Hackathon: 50, Gaming: 50 };
+    </form>
+    <div id="entryPass" style="display:none; text-align:center; margin-top:20px;">
+      <h3>🎟 Entry Pass</h3>
+      <img id="entryQR" style="width:220px;border-radius:10px;">
+      <p style="font-size:13px;opacity:0.8;">Show this at the entry gate</p>
+    </div>
     
-    /* ================= PARTICLES ================= */
-    particlesJS("particles-js", {
-      particles: {
-        number: { value: 80 },
-        color: { value: "#00f5ff" },
-        size: { value: 3 },
-        move: { speed: 1 },
-        line_linked: { enable: true, color: "#00f5ff" }
+    <div class="success" id="successMsg">
+      ✅ Registration Successful!<br />
+      See you at the fest 🚀
+    </div>
+
+    <footer>
+      © 2026 TECLADO, THE FIFTH GEAR
+    </footer>
+  </div>
+
+  <script>
+  const form = document.getElementById('regForm');
+  const success = document.getElementById('successMsg');
+  const feeBox = document.getElementById('feeBox');
+  const qrBox = document.getElementById('qrBox');
+  const qrImg = document.getElementById('qrImg');
+  const checkboxes = document.querySelectorAll('input[name="events"]');
+
+  const UPI_ID = "umasreeram333@oksbi";   // 🔴 CHANGE THIS
+  const PAYEE_NAME = "TECLADO";
+
+  function calculateFee() {
+    let fee = 100;
+    checkboxes.forEach(cb => {
+      if (cb.checked && (cb.value === "Hackathon" || cb.value === "Gaming")) {
+        fee += 50;
       }
     });
-    
-    /* ================= ELEMENTS ================= */
-    const form = document.getElementById("registrationForm");
-    const submitBtn = document.getElementById("submitBtn");
-    const paidInput = document.querySelector('input[name="paidAmount"]');
-    const eventCheckboxes = document.querySelectorAll('input[name="event[]"]');
-    const feeDisplay = document.getElementById("totalFee");
-    const screenshotInput = document.querySelector('input[name="screenshot"]');
-    const preview = document.getElementById("preview");
-    
-    /* ================= PREVIEW ================= */
-    screenshotInput.addEventListener("change", () => {
-        const file = screenshotInput.files[0];
-        if (!file) return;
-        const reader = new FileReader();
-        reader.onload = e => {
-            preview.src = e.target.result;
-            preview.style.display = "block";
-        };
-        reader.readAsDataURL(file);
-    });
-    
-    /* ================= FEE ================= */
-    function calculateFee() {
-        let total = baseFee;
-        eventCheckboxes.forEach(cb => {
-            if (cb.checked && extraEvents[cb.value]) {
-                total += extraEvents[cb.value];
-            }
-        });
-        feeDisplay.textContent = total;
-        return total;
-    }
-    
-    eventCheckboxes.forEach(cb => cb.addEventListener("change", () => {
-        calculateFee();
-        validatePayment();
-    }));
-    
-    /* ================= PAYMENT VALIDATION ================= */
-    function validatePayment() {
-        const expected = calculateFee();
-        const paid = Number(paidInput.value);
-    
-        if (paid === expected && expected > 0) {
-            submitBtn.disabled = false;
-            submitBtn.style.opacity = "1";
-            submitBtn.style.cursor = "pointer";
-        } else {
-            submitBtn.disabled = true;
-            submitBtn.style.opacity = "0.5";
-            submitBtn.style.cursor = "not-allowed";
-        }
-    }
-    
-    paidInput.addEventListener("input", validatePayment);
-    
-    /* ================= ADMIN NOTIFY ================= */
-    function notifyAdmins(data) {
-        const msg =
-    `🟢 NEW TECLADO REGISTRATION
-    
-    👤 Name: ${data.name}
-    🏫 College: ${data.college}
-    📞 Phone: ${data.phone}
-    📧 Email: ${data.email}
-    🎯 Events: ${data.events}
-    💰 Amount: ₹${data.amount}
-    🧾 TXN ID: ${data.txn}
-    ⏰ ${new Date().toLocaleString()}`;
-    
-        ADMIN_NUMBERS.forEach(num => {
-            window.open(`https://wa.me/${num}?text=${encodeURIComponent(msg)}`, "_blank");
-        });
-    }
-    
-    /* ================= SUBMIT ================= */
-    form.addEventListener("submit", function (e) {
-        e.preventDefault();
-    
-        const events = [...document.querySelectorAll('input[name="event[]"]:checked')]
-            .map(e => e.value)
-            .join(", ");
-    
-        if (!events) {
-            alert("Please select at least one event.");
-            return;
-        }
-    
-        const totalAmount = calculateFee();
-        const paid = Number(form.paidAmount.value);
-    
-        if (paid !== totalAmount) {
-            alert(`❌ Payment mismatch!\nExpected ₹${totalAmount}\nPaid ₹${paid}`);
-            return;
-        }
-    
-        submitBtn.disabled = true;
-        submitBtn.textContent = "Submitting...";
-    
-        const formData = new FormData(form);
-        formData.append("event", events);
-        formData.append("amount", totalAmount);
-    
-        fetch("https://script.google.com/macros/s/AKfycbyXaDmOdRSdIbTueS6XZeZmYvaq2lTSA-GrSoCAHHzDTUprodwhjGS-YqwIu1YW05hxWQ/exec", {
-            method: "POST",
-            body: formData
-        })
-        .then(res => res.json())
-        .then(data => {
-            notifyAdmins({
-                name: form.name.value,
-                college: form.college.value,
-                phone: form.phone.value,
-                email: form.email.value,
-                events,
-                amount: totalAmount,
-                txn: form.txn.value
-            });
-    
-            const userMsg =
-    `🎉 TECLADO Registration Successful!
-    🆔 ID: ${data.participantId}
-    🎯 Events: ${events}
-    💰 Amount: ₹${totalAmount}
-    🎫 QR: ${data.qrUrl}`;
-    
-            window.open(`https://wa.me/91${form.phone.value}?text=${encodeURIComponent(userMsg)}`, "_blank");
-            setTimeout(() => window.open(PARTICIPANT_GROUP_LINK, "_blank"), 1500);
-        })
-        .catch(err => {
-            alert("❌ Registration failed. Please contact help desk.");
-            console.error(err);
-            submitBtn.disabled = false;
-            submitBtn.textContent = "Register Now";
-        });
-    });
-    
-    /* ================= UI ================= */
-    function toggleCallPopup() {
-        const popup = document.getElementById("callPopup");
-        popup.style.display = popup.style.display === "flex" ? "none" : "flex";
-    }
-    
-    function openInsta() {
-        window.open("https://www.instagram.com/ccsit.palakkad_official", "_blank");
-    }
-    </script>
-    
+    feeBox.innerHTML = `💰 Total Fee: ₹${fee}`;
+    generateQR(fee);
+    return fee;
+  }
 
+  function generateQR(amount) {
+    const name = document.querySelector('input[type="text"]').value || "Participant";
+    const upiURL = `upi://pay?pa=${UPI_ID}&pn=${encodeURIComponent(PAYEE_NAME)}&am=${amount}&cu=INR&tn=${encodeURIComponent("TECLADO Registration - " + name)}`;
+
+    qrImg.src =
+      "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=" +
+      encodeURIComponent(upiURL);
+
+    qrBox.style.display = "block";
+  }
+
+  checkboxes.forEach(cb => cb.addEventListener('change', calculateFee));
+  calculateFee();
+</script>
+
+<script>
+  const WHATSAPP_GROUP = "https://chat.whatsapp.com/GbVDdVB3pSFKymxNxYkdv7";
+
+const paidBtn = document.getElementById("paidBtn");
+const entryPass = document.getElementById("entryPass");
+const entryQR = document.getElementById("entryQR");
+const name = document.querySelector('input[type="text"]').value.trim();
+const email = document.querySelector('input[type="email"]').value.trim();
+const phone = document.querySelector('input[type="tel"]').value.trim();
+const selectedEvents = document.querySelectorAll('input[name="events"]:checked');
+
+if (!name || !email || !phone) {
+  alert("Please fill all personal details");
+  return;
+}
+
+if (selectedEvents.length === 0) {
+  alert("Please select at least one event");
+  return;
+}
+
+paidBtn.addEventListener("click", async () => {
+  const paymentMode = document.getElementById("paymentMode").value;
+  const file = document.getElementById("paymentProof").files[0];
+
+  if (!paymentMode) {
+    alert("Select payment method");
+    return;
+  }
+
+
+  /* 🔐 UPI QR FLOW */
+  if (paymentMode === "UPI QR" && !file) {
+    alert("Upload payment screenshot");
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = async () => {
+    const payload = {
+      name: document.querySelector('input[type="text"]').value,
+      email: document.querySelector('input[type="email"]').value,
+      phone: document.querySelector('input[type="tel"]').value,
+      college: document.querySelectorAll('input[type="text"]')[1].value,
+      events: [...document.querySelectorAll('input[name="events"]:checked')].map(e => e.value),
+      amount: calculateFee(),
+      paymentMode: paymentMode,
+      screenshot: reader.result.split(",")[1],
+      mimeType: file.type
+    };
+
+    const res = await fetch("https://script.google.com/macros/s/AKfycbyWwudRFi2222c-jj8nxfG3rPGCyFtePQvcSPQPh1IpEAckILWmvv35RPfq16CMqQFgwg/exec", {
+      method: "POST",
+      body: JSON.stringify(payload)
+    });
+
+    const result = await res.json();
+
+    entryQR.src =
+      "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=" +
+      encodeURIComponent(result.qrData);
+
+      form.style.display = "none";
+entryPass.style.display = "block";
+success.style.display = "block";
+
+/* 🚀 Auto-open WhatsApp Group */
+const message =
+  `Hi, I have successfully registered for TECLADO ✅%0A%0A` +
+  `Name: ${payload.name}%0A` +
+  `Events: ${payload.events.join(", ")}%0A%0A` +
+  `Here is my Entry Pass QR:%0A${result.qrImage}`;
+
+setTimeout(() => {
+  window.open(
+    `https://wa.me/?text=${message}`,
+    "_blank"
+  );
+}, 1500);
+
+  };
+
+  reader.readAsDataURL(file);
+});
+
+</script>
+
+<!-- 📸 INSTAGRAM BUTTON (BOTTOM RIGHT) -->
+<div class="fab insta-fab">
+  <a href="https://www.instagram.com/ccsit.palakkad_official" target="_blank">
+    📸 Instagram
+  </a>
+</div>
 </body>
-</html>
+</html> 
 
 
