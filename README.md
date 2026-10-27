@@ -288,7 +288,7 @@ button::after {
   const qrImg = document.getElementById('qrImg');
   const checkboxes = document.querySelectorAll('input[name="events"]');
 
-  const UPI_ID = "umasreeram333@oksbi";   // 🔴 CHANGE THIS
+  const UPI_ID = "example22@ab";   // 🔴 CHANGE THIS
   const PAYEE_NAME = "TECLADO";
 
   function calculateFee() {
