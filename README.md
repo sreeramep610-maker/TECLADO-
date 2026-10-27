@@ -410,7 +410,7 @@ button::after {
 
 <!-- 📸 INSTAGRAM BUTTON (BOTTOM RIGHT) -->
 <div class="fab insta-fab">
-  <a href="https://www.instagram.com/ccsit.palakkad_official" target="_blank">
+  <a href="https://www.instagram.com/ccsit_palakkad?utm_source=ig_web_button_share_sheet&rpxt=ZDNlZDc0MzIxNw==" target="_blank">
     📸 Instagram
   </a>
 </div>
